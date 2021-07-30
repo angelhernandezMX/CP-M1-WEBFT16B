@@ -40,6 +40,20 @@ const {
 var isAncestor = function(genealogyTree, ancestor, descendant){
   // Tu código aca:
 
+  // Caso base. 
+  if(genealogyTree[ancestor].length <= 0){
+    return false; 
+  }
+  for (var i = 0; i < genealogyTree[ancestor].length; i++) {
+    var auxiliar = genealogyTree[ancestor][i];
+    if(auxiliar === descendant){
+      return true;
+    }
+    if(genealogyTree[auxiliar].length > 0){
+      return isAncestor(genealogyTree, auxiliar, descendant);
+    }
+  }
+  return false;
 }
 
 
@@ -77,7 +91,10 @@ var isAncestor = function(genealogyTree, ancestor, descendant){
 
 function secuenciaHenry(obj, n) {
   // Tu código aca:
-
+  if(n < 0) return null;
+  if(n === 0) return obj.first;
+  if(n === 1) return Object.keys(obj).length;
+  return (secuenciaHenry(obj, n-1) * secuenciaHenry(obj, n-2)  - secuenciaHenry(obj, n-2));
 }
 
 // ---------------------
@@ -98,7 +115,17 @@ function secuenciaHenry(obj, n) {
 
 LinkedList.prototype.size = function(){
   // Tu código aca:
-
+ var contador = 0; 
+ if(this.head === null){
+   return 0;
+ } else {
+   var nuevo = this.head;
+   while (nuevo.next){
+     contador = contador + 1;
+     nuevo =  nuevo.next; 
+   }
+   return contador + 1; 
+ }
 }
 
 
@@ -119,7 +146,23 @@ LinkedList.prototype.size = function(){
 
 LinkedList.prototype.switchPos = function(pos1, pos2){
   // Tu código aca:
-
+  var newpos1 = this.head;
+  var newpos2 = this.head;
+  if(pos1 > this.size() || pos2 > this.size() || pos1 < 0 || pos2 < 0) return false; 
+  if (this.head === null) return false; 
+  else{
+    for (let i = 0; i < pos1 ; i++) {
+      newpos1 = newpos1.next;
+    }
+    var aux1 = newpos1.value;
+    for (let i = 0; i < pos2; i++) {
+      newpos2 = newpos2.next;
+    }
+    var aux2 = newpos2.value; 
+    newpos1.value = aux2;
+    newpos2.value = aux1;
+    return true;
+  }
 }
 
 // EJERCICIO 5
@@ -135,7 +178,19 @@ LinkedList.prototype.switchPos = function(pos1, pos2){
 // Continuando con el nodo 2 de la lista 2, conectandose con el nodo 2 de la lista 2.
 var mergeLinkedLists = function(linkedListOne, linkedListTwo){
   // Tu código aca:
+  var list = new LinkedList();
 
+  var contenedor1 = linkedListOne.head;
+  var contenedor2 = linkedListTwo.head;
+
+    while(contenedor1 !== null && contenedor2 !== null){
+      list.add(contenedor1);
+      list.add(contenedor2);
+
+      contenedor1 = contenedor1.next;
+      contenedor2 = contenedor2.next;
+    }
+    return list;
 }
 
 
@@ -290,8 +345,20 @@ var specialSort = function(array, orderFunction) {
 
 function closureDetect(symptoms, min) {
   // Tu código aca:
+  return function(person){
+    var sintoma = 0; 
 
+    for (let i = 0; i < symptoms.length; i++) {
+      if(symptoms.includes(person.symptoms[i])){
+        sintoma++;
+      }
+    }
+    if(sintoma >= min) return true;
+    return false;
+  }
 }
+
+
 
 // -------------------
 
