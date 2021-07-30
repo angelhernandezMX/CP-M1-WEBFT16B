@@ -40,7 +40,6 @@ const {
 var isAncestor = function(genealogyTree, ancestor, descendant){
   // Tu código aca:
 
-  // Caso base. 
   if(genealogyTree[ancestor].length <= 0){
     return false; 
   }
@@ -180,15 +179,15 @@ var mergeLinkedLists = function(linkedListOne, linkedListTwo){
   // Tu código aca:
   var list = new LinkedList();
 
-  var contenedor1 = linkedListOne.head;
-  var contenedor2 = linkedListTwo.head;
+  var current1 = linkedListOne.head;
+  var current2 = linkedListTwo.head;
 
-    while(contenedor1 !== null && contenedor2 !== null){
-      list.add(contenedor1);
-      list.add(contenedor2);
+    while(current1 !== null && current2 !== null){
+      list.add(current1);
+      list.add(current2);
 
-      contenedor1 = contenedor1.next;
-      contenedor2 = contenedor2.next;
+      current1 = current1.next;
+      current2 = current2.next;
     }
     return list;
 }
@@ -263,6 +262,25 @@ var cardGame = function(playerOneCards, playerTwoCards){
 BinarySearchTree.prototype.height = function(){
   // Tu código aca:
 
+if (!this.value) {
+  return 0;
+}
+
+if (this.left === null && this.right === null) {
+  return 1;
+}
+
+if (this.left === null) {
+  return 1 + this.right.height();
+}
+
+if (this.right === null) {
+  return 1 + this.left.height();
+}
+var left = this.left.height()
+var right = this.right.height()
+
+return 1 + Math.max(left, right)
 }
 
 
@@ -284,7 +302,24 @@ BinarySearchTree.prototype.height = function(){
 
 var binarySearch = function (array, target) {
   // Tu código aca:
+  var primero = 0;
+  var ultimo = array.length - 1;
+  var posicion = -1;
+  var encontrado = false;
+  
 
+  while (encontrado === false && primero <= ultimo) {
+    var medio = Math.floor((primero + ultimo) / 2);
+    if (array[medio] == target) {
+      encontrado = true;
+      posicion = medio;
+    } else if (array[medio] > target) {
+      ultimo = medio - 1;
+    } else {
+      primero = medio + 1;
+    }
+  }
+  return posicion;
 }
 
 // EJERCICIO 9
